@@ -65,10 +65,17 @@ struct WindowsErrorDialog: View {
             HStack {
                 HStack(spacing: 4) {
                     // Icono pequeño de error en la barra de título
-                    Image(systemName: "exclamationmark.circle.fill")
-                        .foregroundColor(.white)
-                        .font(.system(size: 12))
-                        .shadow(color: .black.opacity(0.5), radius: 0, x: 1, y: 1)
+                    if let errorImage = NSImage(named: "error") {
+                        Image(nsImage: errorImage)
+                            .resizable()
+                            .frame(width: 12, height: 12)
+                            .shadow(color: .black.opacity(0.5), radius: 0, x: 1, y: 1)
+                    } else {
+                        Image(systemName: "exclamationmark.circle.fill")
+                            .foregroundColor(.white)
+                            .font(.system(size: 12))
+                            .shadow(color: .black.opacity(0.5), radius: 0, x: 1, y: 1)
+                    }
                     
                     Text("Error")
                         .font(.system(size: 11, weight: .regular))
@@ -123,34 +130,40 @@ struct WindowsErrorDialog: View {
             
             // Contenido principal con fondo XP
             HStack(spacing: 12) {
-                // Icono de error más realista
+                // Icono de error personalizado
                 VStack {
-                    ZStack {
-                        // Círculo con gradiente rojo
-                        Circle()
-                            .fill(
-                                RadialGradient(
-                                    gradient: Gradient(colors: [
-                                        Color(red: 1.0, green: 0.4, blue: 0.4),
-                                        Color(red: 0.9, green: 0.1, blue: 0.1),
-                                        Color(red: 0.7, green: 0.0, blue: 0.0)
-                                    ]),
-                                    center: UnitPoint(x: 0.3, y: 0.3),
-                                    startRadius: 5,
-                                    endRadius: 25
-                                )
-                            )
+                    if let errorImage = NSImage(named: "error") {
+                        Image(nsImage: errorImage)
+                            .resizable()
                             .frame(width: 32, height: 32)
-                            .overlay(
-                                Circle()
-                                    .stroke(Color(red: 0.5, green: 0.0, blue: 0.0), lineWidth: 1)
-                            )
-                        
-                        // X blanca con sombra
-                        Text("✕")
-                            .font(.system(size: 18, weight: .heavy))
-                            .foregroundColor(.white)
-                            .shadow(color: .black.opacity(0.3), radius: 1, x: 1, y: 1)
+                            .shadow(color: .black.opacity(0.3), radius: 2, x: 1, y: 1)
+                    } else {
+                        // Fallback al icono original si no se encuentra la imagen
+                        ZStack {
+                            Circle()
+                                .fill(
+                                    RadialGradient(
+                                        gradient: Gradient(colors: [
+                                            Color(red: 1.0, green: 0.4, blue: 0.4),
+                                            Color(red: 0.9, green: 0.1, blue: 0.1),
+                                            Color(red: 0.7, green: 0.0, blue: 0.0)
+                                        ]),
+                                        center: UnitPoint(x: 0.3, y: 0.3),
+                                        startRadius: 5,
+                                        endRadius: 25
+                                    )
+                                )
+                                .frame(width: 32, height: 32)
+                                .overlay(
+                                    Circle()
+                                        .stroke(Color(red: 0.5, green: 0.0, blue: 0.0), lineWidth: 1)
+                                )
+                            
+                            Text("✕")
+                                .font(.system(size: 18, weight: .heavy))
+                                .foregroundColor(.white)
+                                .shadow(color: .black.opacity(0.3), radius: 1, x: 1, y: 1)
+                        }
                     }
                 }
                 .padding(.leading, 8)
@@ -287,12 +300,19 @@ struct SecondErrorDialog: View {
             HStack {
                 HStack(spacing: 4) {
                     // Icono de advertencia en la barra de título
-                    Image(systemName: "exclamationmark.triangle.fill")
-                        .foregroundColor(.white)
-                        .font(.system(size: 12))
-                        .shadow(color: .black.opacity(0.5), radius: 0, x: 1, y: 1)
+                    if let warningImage = NSImage(named: "warning") {
+                        Image(nsImage: warningImage)
+                            .resizable()
+                            .frame(width: 12, height: 12)
+                            .shadow(color: .black.opacity(0.5), radius: 0, x: 1, y: 1)
+                    } else {
+                        Image(systemName: "exclamationmark.triangle.fill")
+                            .foregroundColor(.white)
+                            .font(.system(size: 12))
+                            .shadow(color: .black.opacity(0.5), radius: 0, x: 1, y: 1)
+                    }
                     
-                    Text("¡Alerta del sistema!")
+                    Text("Alerta del sistema")
                         .font(.system(size: 11, weight: .regular))
                         .foregroundColor(.white)
                         .shadow(color: .black.opacity(0.5), radius: 0, x: 1, y: 1)
@@ -345,20 +365,26 @@ struct SecondErrorDialog: View {
             
             // Contenido principal con fondo XP
             HStack(spacing: 12) {
-                // Icono de advertencia más grande
+                // Icono de advertencia personalizado
                 VStack {
-                    ZStack {
-                        // Triángulo con gradiente amarillo
-                        Image(systemName: "exclamationmark.triangle.fill")
-                            .font(.system(size: 36))
-                            .foregroundColor(Color(red: 1.0, green: 0.8, blue: 0.0))
+                    if let warningImage = NSImage(named: "warning") {
+                        Image(nsImage: warningImage)
+                            .resizable()
+                            .frame(width: 48, height: 48)
                             .shadow(color: .black.opacity(0.2), radius: 2, x: 1, y: 1)
-                        
-                        // Signo de exclamación
-                        Image(systemName: "exclamationmark")
-                            .font(.system(size: 20, weight: .heavy))
-                            .foregroundColor(.black)
-                            .offset(y: -2)
+                    } else {
+                        // Fallback al icono original si no se encuentra la imagen
+                        ZStack {
+                            Image(systemName: "exclamationmark.triangle.fill")
+                                .font(.system(size: 36))
+                                .foregroundColor(Color(red: 1.0, green: 0.8, blue: 0.0))
+                                .shadow(color: .black.opacity(0.2), radius: 2, x: 1, y: 1)
+                            
+                            Image(systemName: "exclamationmark")
+                                .font(.system(size: 20, weight: .heavy))
+                                .foregroundColor(.black)
+                                .offset(y: -2)
+                        }
                     }
                 }
                 .padding(.leading, 8)
